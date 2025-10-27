@@ -3,15 +3,20 @@
 /* Define a function `addFour()` that takes a single argument 
    and returns a value 4 greater than the input.*/
 
-   
+  function addFour(x) {
+    return x + 4;
+  }
+
 /* Create and log a variable `twelve` that is the result of passing 8 to your
    addFour() function. */
-
+const twelve = addFour(8);
+console.log(twelve);
    
 /* Create and log a variable `twelveString` that is the result of passing "8" 
    (a string) to your addFour() function. Consider what this tells you about how
   the function should be explained (e.g., in a comment). */
-
+const twelveString = addFour("8");
+console.log(twelveString);
   
 
 /* Define a function `compoundInterest()` that takes three parameters: 
@@ -25,7 +30,10 @@
    You can call the method and log the result to check your work. Compare to
      http://www.mathwarehouse.com/calculators/continuous-compound-interest-calculator.php
 */
-
+function compoundInterest(principal, annualRate, years) {
+  return principal * Math.exp(annualRate * years);
+}
+console.log(compoundInterest(6767, 0.05, 67));
 
 
 /* Define a function `fizzBuzz()` that takes in a single number as an argument.
@@ -36,7 +44,21 @@
    should contain "FizzBuzz" instead of the number.
    The returned array should be empty for arguments less than 1. */
 
-   
+function fizzBuzz(n) {
+  const out = [];
+  for (let i = 1; i <= n; i++) {
+    if (i % 15 === 0) {
+      out.push("FizzBuzz");
+    } else if (i % 3 === 0) {
+      out.push("Fizz");
+    } else if (i % 5 === 0) {
+      out.push("Buzz");
+    } else {
+      out.push(i);
+    }
+  }
+  return out;
+}
 
 /* Define a function `getLetterFrequencies()` that takes in a single string as 
    an argument. The function should *return* an Object whose keys are characters
@@ -48,7 +70,15 @@
    for if the letter is not in the Object yet!
    You can test this method with a word like "Mississippi". */
 
-   
+function getLetterFrequencies(str) {
+  const freq = {};
+  for (const ch of str) {
+    freq[ch] = (freq[ch] || 0) + 1;
+  }
+  return freq;
+}
+
+console.log(getLetterFrequencies("Mississippi"));
 
 /* Create a variable `deck` that represents a deck of modern playing cards
    (https://en.wikipedia.org/wiki/Playing_card). This variable should be an
@@ -62,7 +92,14 @@
     
     You can log out the `deck` to check your work! */
 
-    
+const suits = ["hearts", "diamonds", "clubs", "spades"];
+const deck = [];
+for (const suit of suits) {
+  for (let rank = 2; rank <= 14; rank++) {
+    deck.push({ suit, rank });
+  }
+}
+console.log(deck);
 
 //You can test the below functions by creating e.g., a `pokerHand` array that 
 //contains five cards from the `deck`.
@@ -71,20 +108,40 @@
    objects (e.g., a Poker hand) and returns whether or not the Queen of Hearts
    is in that array.
    Hint: use a loop to check each card. */
-
-   
+function containsQueenOfHearts(cards) {
+  for (const c of cards) {
+    if (c.suit === "hearts" && c.rank === 12) {
+      return true;
+    }
+  }
+  return false;
+}
 
 /* Define a function `getHighCard()` that takes in an array of "card" objects
   and returns the card object with the highest value. The "high card" is the one
   with the highest rank. Cards of different suits but the same rank are 
   considered to have the same value, and either is a valid result */
 
-  
+function getHighCard(cards) {
+  if (!cards || cards.length === 0){
+    return undefined;
+  }
+  return cards.reduce((best, c) => (c.rank > best.rank ? c : best), cards[0]);
+}
 
 /* Define a function `isFlush()` that takes in an array of "card" objects and
    returns whether or not the cards all have the same _suit_. */
 
-   
+function isFlush(cards) {
+  if (!cards || cards.length === 0) {
+    return false;
+  }
+  const s = cards[0].suit;
+  for (const c of cards) {
+    if (c.suit !== s) return false;
+  }
+  return true;
+}
 
 /* Extra challenge: define a function `hasPair()` that takes in an array of 
    "card" objects and returns whether or not there is at least one _pair_ (two 
@@ -92,7 +149,19 @@
    Double challenge: return the rank of the pair of cards with the highest rank 
    (e.g., if the hand contains more than one pair!) */
 
+function hasPair(cards) {
+  const counts = {};
+  for (const { rank } of cards) counts[rank] = (counts[rank] || 0) + 1;
+  let best = false;
+  for (const r of Object.keys(counts).map(Number)) {
+    if (counts[r] >= 2 && (best === false || r > best)) {
+      best = r;
+    }
+  }
+  return best;
+}
 
+console.log(hasPair(deck));
 
 //Make functions and variables available to tester. DO NOT MODIFY THIS.
 if(typeof module !== 'undefined' && module.exports){
